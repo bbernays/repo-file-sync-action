@@ -65,22 +65,20 @@ const pathIsDirectory = async (path) => {
 }
 
 const copyTemplated = async (src, dest, repoName) => {
-	let content = await fs.readFile(src, 'utf-8')
-	if (!content.startsWith("{{=<% %>=}}")) {
-		await fs.writeFile(dest, content)
-		return
-	}
-	const isVariableFileExists = false
-	try {
-		await fs.stat(src + "." + repoName + ".js")
-		isVariableFileExists = true
-	} catch (err) {
-	}
-	if (isVariableFileExists) {
-		const contentVariable = (await import(src + "." + repoName + ".js")).default
-		content = Mustache.render(content, contentVariable)
-	} else {
-		content = Mustache.render(content)
+	let content = await fs.readFile(src, 'ascii')
+	if (content.startsWith("{{=<% %>=}}")) {
+		const isVariableFileExists = false
+		try {
+			await fs.stat(src + "." + repoName + ".js")
+			isVariableFileExists = true
+		} catch (err) {
+		}
+		if (isVariableFileExists) {
+			const contentVariable = (await import(src + "." + repoName + ".js")).default
+			content = Mustache.render(content, contentVariable)
+		} else {
+			content = Mustache.render(content)
+		}
 	}
 	await fs.writeFile(dest, content)
 }
