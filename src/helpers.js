@@ -69,13 +69,14 @@ const copyTemplated = async (src, dest, repoName) => {
 	let content = await fs.readFile(src, 'ascii')
 	if (content.startsWith("{{=<% %>=}}")) {
 		const isVariableFileExists = false
+		const templateValuesPath = src + "." + repoName + ".js"
 		try {
-			await fs.stat(src + "." + repoName + ".js")
+			await fs.stat(templateValuesPath)
 			isVariableFileExists = true
 		} catch (err) {
+			core.info(`CP: templated values file ${templateValuesPath} doesn't exist`)
 		}
 		if (isVariableFileExists) {
-			templateValuesPath = src + "." + repoName + ".js"
 			let templateValues = (await import(templateValuesPath)).values
 			if (templateValues === undefined) {
 				const errMessage = `Template values not found in ${templateValuesPath}. maybe missing exports.values ?`
