@@ -18788,17 +18788,15 @@ const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
 		return true
 	}
 
-	srcStat = await fs.stat(src)
-
-	if (srcStat.isFile()) {
-		copyTemplated(src, dest, repoName)
-	} else {
+	if (pathIsDirectory(src)) {
 		const srcFileList = await readfiles(src, { readContents: false, hidden: true })
 		for (const srcFile of srcFileList) {
 			const srcPath = path.join(src, srcFile)
 			const dstPath = path.join(dest, path.basename(srcFile))
 			copyTemplated(srcPath, dstPath, repoName)
 		}
+	} else {
+		copyTemplated(src, dest, repoName)
 	}
 
 
