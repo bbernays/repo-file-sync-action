@@ -7723,7 +7723,7 @@ return Promise;
 
 /***/ }),
 
-/***/ 3338:
+/***/ 9618:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -7893,19 +7893,6 @@ function copyLink (resolvedSrc, dest) {
 }
 
 module.exports = copySync
-
-
-/***/ }),
-
-/***/ 1135:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-module.exports = {
-  copySync: __nccwpck_require__(3338)
-}
 
 
 /***/ }),
@@ -8158,7 +8145,8 @@ module.exports = copy
 
 const u = (__nccwpck_require__(1463).fromCallback)
 module.exports = {
-  copy: u(__nccwpck_require__(8834))
+  copy: u(__nccwpck_require__(8834)),
+  copySync: __nccwpck_require__(9618)
 }
 
 
@@ -8294,26 +8282,26 @@ module.exports = {
 "use strict";
 
 
-const file = __nccwpck_require__(2164)
-const link = __nccwpck_require__(3797)
-const symlink = __nccwpck_require__(2549)
+const { createFile, createFileSync } = __nccwpck_require__(2164)
+const { createLink, createLinkSync } = __nccwpck_require__(3797)
+const { createSymlink, createSymlinkSync } = __nccwpck_require__(2549)
 
 module.exports = {
   // file
-  createFile: file.createFile,
-  createFileSync: file.createFileSync,
-  ensureFile: file.createFile,
-  ensureFileSync: file.createFileSync,
+  createFile,
+  createFileSync,
+  ensureFile: createFile,
+  ensureFileSync: createFileSync,
   // link
-  createLink: link.createLink,
-  createLinkSync: link.createLinkSync,
-  ensureLink: link.createLink,
-  ensureLinkSync: link.createLinkSync,
+  createLink,
+  createLinkSync,
+  ensureLink: createLink,
+  ensureLinkSync: createLinkSync,
   // symlink
-  createSymlink: symlink.createSymlink,
-  createSymlinkSync: symlink.createSymlinkSync,
-  ensureSymlink: symlink.createSymlink,
-  ensureSymlinkSync: symlink.createSymlinkSync
+  createSymlink,
+  createSymlinkSync,
+  ensureSymlink: createSymlink,
+  ensureSymlinkSync: createSymlinkSync
 }
 
 
@@ -8764,15 +8752,13 @@ module.exports = {
   // Export promiseified graceful-fs:
   ...__nccwpck_require__(1176),
   // Export extra methods:
-  ...__nccwpck_require__(1135),
   ...__nccwpck_require__(1335),
   ...__nccwpck_require__(6970),
   ...__nccwpck_require__(55),
   ...__nccwpck_require__(213),
   ...__nccwpck_require__(8605),
-  ...__nccwpck_require__(9665),
   ...__nccwpck_require__(1497),
-  ...__nccwpck_require__(6570),
+  ...__nccwpck_require__(1832),
   ...__nccwpck_require__(3835),
   ...__nccwpck_require__(7357)
 }
@@ -8830,7 +8816,7 @@ module.exports = {
 
 
 const { stringify } = __nccwpck_require__(5902)
-const { outputFileSync } = __nccwpck_require__(6570)
+const { outputFileSync } = __nccwpck_require__(1832)
 
 function outputJsonSync (file, data, options) {
   const str = stringify(data, options)
@@ -8850,7 +8836,7 @@ module.exports = outputJsonSync
 
 
 const { stringify } = __nccwpck_require__(5902)
-const { outputFile } = __nccwpck_require__(6570)
+const { outputFile } = __nccwpck_require__(1832)
 
 async function outputJson (file, data, options = {}) {
   const str = stringify(data, options)
@@ -8949,20 +8935,22 @@ module.exports.checkPath = function checkPath (pth) {
 
 /***/ }),
 
-/***/ 9665:
+/***/ 1497:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
 
+const u = (__nccwpck_require__(1463).fromCallback)
 module.exports = {
-  moveSync: __nccwpck_require__(6445)
+  move: u(__nccwpck_require__(2231)),
+  moveSync: __nccwpck_require__(2047)
 }
 
 
 /***/ }),
 
-/***/ 6445:
+/***/ 2047:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -8970,7 +8958,7 @@ module.exports = {
 
 const fs = __nccwpck_require__(7758)
 const path = __nccwpck_require__(1017)
-const copySync = (__nccwpck_require__(1135).copySync)
+const copySync = (__nccwpck_require__(1335).copySync)
 const removeSync = (__nccwpck_require__(7357).removeSync)
 const mkdirpSync = (__nccwpck_require__(8605).mkdirpSync)
 const stat = __nccwpck_require__(3901)
@@ -9020,20 +9008,6 @@ function moveAcrossDevice (src, dest, overwrite) {
 }
 
 module.exports = moveSync
-
-
-/***/ }),
-
-/***/ 1497:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-const u = (__nccwpck_require__(1463).fromCallback)
-module.exports = {
-  move: u(__nccwpck_require__(2231))
-}
 
 
 /***/ }),
@@ -9119,7 +9093,7 @@ module.exports = move
 
 /***/ }),
 
-/***/ 6570:
+/***/ 1832:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -14882,6 +14856,784 @@ module.exports = { stringify, stripBom }
 
 /***/ }),
 
+/***/ 8272:
+/***/ (function(module) {
+
+(function (global, factory) {
+   true ? module.exports = factory() :
+  0;
+}(this, (function () { 'use strict';
+
+  /*!
+   * mustache.js - Logic-less {{mustache}} templates with JavaScript
+   * http://github.com/janl/mustache.js
+   */
+
+  var objectToString = Object.prototype.toString;
+  var isArray = Array.isArray || function isArrayPolyfill (object) {
+    return objectToString.call(object) === '[object Array]';
+  };
+
+  function isFunction (object) {
+    return typeof object === 'function';
+  }
+
+  /**
+   * More correct typeof string handling array
+   * which normally returns typeof 'object'
+   */
+  function typeStr (obj) {
+    return isArray(obj) ? 'array' : typeof obj;
+  }
+
+  function escapeRegExp (string) {
+    return string.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+  }
+
+  /**
+   * Null safe way of checking whether or not an object,
+   * including its prototype, has a given property
+   */
+  function hasProperty (obj, propName) {
+    return obj != null && typeof obj === 'object' && (propName in obj);
+  }
+
+  /**
+   * Safe way of detecting whether or not the given thing is a primitive and
+   * whether it has the given property
+   */
+  function primitiveHasOwnProperty (primitive, propName) {
+    return (
+      primitive != null
+      && typeof primitive !== 'object'
+      && primitive.hasOwnProperty
+      && primitive.hasOwnProperty(propName)
+    );
+  }
+
+  // Workaround for https://issues.apache.org/jira/browse/COUCHDB-577
+  // See https://github.com/janl/mustache.js/issues/189
+  var regExpTest = RegExp.prototype.test;
+  function testRegExp (re, string) {
+    return regExpTest.call(re, string);
+  }
+
+  var nonSpaceRe = /\S/;
+  function isWhitespace (string) {
+    return !testRegExp(nonSpaceRe, string);
+  }
+
+  var entityMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+  };
+
+  function escapeHtml (string) {
+    return String(string).replace(/[&<>"'`=\/]/g, function fromEntityMap (s) {
+      return entityMap[s];
+    });
+  }
+
+  var whiteRe = /\s*/;
+  var spaceRe = /\s+/;
+  var equalsRe = /\s*=/;
+  var curlyRe = /\s*\}/;
+  var tagRe = /#|\^|\/|>|\{|&|=|!/;
+
+  /**
+   * Breaks up the given `template` string into a tree of tokens. If the `tags`
+   * argument is given here it must be an array with two string values: the
+   * opening and closing tags used in the template (e.g. [ "<%", "%>" ]). Of
+   * course, the default is to use mustaches (i.e. mustache.tags).
+   *
+   * A token is an array with at least 4 elements. The first element is the
+   * mustache symbol that was used inside the tag, e.g. "#" or "&". If the tag
+   * did not contain a symbol (i.e. {{myValue}}) this element is "name". For
+   * all text that appears outside a symbol this element is "text".
+   *
+   * The second element of a token is its "value". For mustache tags this is
+   * whatever else was inside the tag besides the opening symbol. For text tokens
+   * this is the text itself.
+   *
+   * The third and fourth elements of the token are the start and end indices,
+   * respectively, of the token in the original template.
+   *
+   * Tokens that are the root node of a subtree contain two more elements: 1) an
+   * array of tokens in the subtree and 2) the index in the original template at
+   * which the closing tag for that section begins.
+   *
+   * Tokens for partials also contain two more elements: 1) a string value of
+   * indendation prior to that tag and 2) the index of that tag on that line -
+   * eg a value of 2 indicates the partial is the third tag on this line.
+   */
+  function parseTemplate (template, tags) {
+    if (!template)
+      return [];
+    var lineHasNonSpace = false;
+    var sections = [];     // Stack to hold section tokens
+    var tokens = [];       // Buffer to hold the tokens
+    var spaces = [];       // Indices of whitespace tokens on the current line
+    var hasTag = false;    // Is there a {{tag}} on the current line?
+    var nonSpace = false;  // Is there a non-space char on the current line?
+    var indentation = '';  // Tracks indentation for tags that use it
+    var tagIndex = 0;      // Stores a count of number of tags encountered on a line
+
+    // Strips all whitespace tokens array for the current line
+    // if there was a {{#tag}} on it and otherwise only space.
+    function stripSpace () {
+      if (hasTag && !nonSpace) {
+        while (spaces.length)
+          delete tokens[spaces.pop()];
+      } else {
+        spaces = [];
+      }
+
+      hasTag = false;
+      nonSpace = false;
+    }
+
+    var openingTagRe, closingTagRe, closingCurlyRe;
+    function compileTags (tagsToCompile) {
+      if (typeof tagsToCompile === 'string')
+        tagsToCompile = tagsToCompile.split(spaceRe, 2);
+
+      if (!isArray(tagsToCompile) || tagsToCompile.length !== 2)
+        throw new Error('Invalid tags: ' + tagsToCompile);
+
+      openingTagRe = new RegExp(escapeRegExp(tagsToCompile[0]) + '\\s*');
+      closingTagRe = new RegExp('\\s*' + escapeRegExp(tagsToCompile[1]));
+      closingCurlyRe = new RegExp('\\s*' + escapeRegExp('}' + tagsToCompile[1]));
+    }
+
+    compileTags(tags || mustache.tags);
+
+    var scanner = new Scanner(template);
+
+    var start, type, value, chr, token, openSection;
+    while (!scanner.eos()) {
+      start = scanner.pos;
+
+      // Match any text between tags.
+      value = scanner.scanUntil(openingTagRe);
+
+      if (value) {
+        for (var i = 0, valueLength = value.length; i < valueLength; ++i) {
+          chr = value.charAt(i);
+
+          if (isWhitespace(chr)) {
+            spaces.push(tokens.length);
+            indentation += chr;
+          } else {
+            nonSpace = true;
+            lineHasNonSpace = true;
+            indentation += ' ';
+          }
+
+          tokens.push([ 'text', chr, start, start + 1 ]);
+          start += 1;
+
+          // Check for whitespace on the current line.
+          if (chr === '\n') {
+            stripSpace();
+            indentation = '';
+            tagIndex = 0;
+            lineHasNonSpace = false;
+          }
+        }
+      }
+
+      // Match the opening tag.
+      if (!scanner.scan(openingTagRe))
+        break;
+
+      hasTag = true;
+
+      // Get the tag type.
+      type = scanner.scan(tagRe) || 'name';
+      scanner.scan(whiteRe);
+
+      // Get the tag value.
+      if (type === '=') {
+        value = scanner.scanUntil(equalsRe);
+        scanner.scan(equalsRe);
+        scanner.scanUntil(closingTagRe);
+      } else if (type === '{') {
+        value = scanner.scanUntil(closingCurlyRe);
+        scanner.scan(curlyRe);
+        scanner.scanUntil(closingTagRe);
+        type = '&';
+      } else {
+        value = scanner.scanUntil(closingTagRe);
+      }
+
+      // Match the closing tag.
+      if (!scanner.scan(closingTagRe))
+        throw new Error('Unclosed tag at ' + scanner.pos);
+
+      if (type == '>') {
+        token = [ type, value, start, scanner.pos, indentation, tagIndex, lineHasNonSpace ];
+      } else {
+        token = [ type, value, start, scanner.pos ];
+      }
+      tagIndex++;
+      tokens.push(token);
+
+      if (type === '#' || type === '^') {
+        sections.push(token);
+      } else if (type === '/') {
+        // Check section nesting.
+        openSection = sections.pop();
+
+        if (!openSection)
+          throw new Error('Unopened section "' + value + '" at ' + start);
+
+        if (openSection[1] !== value)
+          throw new Error('Unclosed section "' + openSection[1] + '" at ' + start);
+      } else if (type === 'name' || type === '{' || type === '&') {
+        nonSpace = true;
+      } else if (type === '=') {
+        // Set the tags for the next time around.
+        compileTags(value);
+      }
+    }
+
+    stripSpace();
+
+    // Make sure there are no open sections when we're done.
+    openSection = sections.pop();
+
+    if (openSection)
+      throw new Error('Unclosed section "' + openSection[1] + '" at ' + scanner.pos);
+
+    return nestTokens(squashTokens(tokens));
+  }
+
+  /**
+   * Combines the values of consecutive text tokens in the given `tokens` array
+   * to a single token.
+   */
+  function squashTokens (tokens) {
+    var squashedTokens = [];
+
+    var token, lastToken;
+    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
+      token = tokens[i];
+
+      if (token) {
+        if (token[0] === 'text' && lastToken && lastToken[0] === 'text') {
+          lastToken[1] += token[1];
+          lastToken[3] = token[3];
+        } else {
+          squashedTokens.push(token);
+          lastToken = token;
+        }
+      }
+    }
+
+    return squashedTokens;
+  }
+
+  /**
+   * Forms the given array of `tokens` into a nested tree structure where
+   * tokens that represent a section have two additional items: 1) an array of
+   * all tokens that appear in that section and 2) the index in the original
+   * template that represents the end of that section.
+   */
+  function nestTokens (tokens) {
+    var nestedTokens = [];
+    var collector = nestedTokens;
+    var sections = [];
+
+    var token, section;
+    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
+      token = tokens[i];
+
+      switch (token[0]) {
+        case '#':
+        case '^':
+          collector.push(token);
+          sections.push(token);
+          collector = token[4] = [];
+          break;
+        case '/':
+          section = sections.pop();
+          section[5] = token[2];
+          collector = sections.length > 0 ? sections[sections.length - 1][4] : nestedTokens;
+          break;
+        default:
+          collector.push(token);
+      }
+    }
+
+    return nestedTokens;
+  }
+
+  /**
+   * A simple string scanner that is used by the template parser to find
+   * tokens in template strings.
+   */
+  function Scanner (string) {
+    this.string = string;
+    this.tail = string;
+    this.pos = 0;
+  }
+
+  /**
+   * Returns `true` if the tail is empty (end of string).
+   */
+  Scanner.prototype.eos = function eos () {
+    return this.tail === '';
+  };
+
+  /**
+   * Tries to match the given regular expression at the current position.
+   * Returns the matched text if it can match, the empty string otherwise.
+   */
+  Scanner.prototype.scan = function scan (re) {
+    var match = this.tail.match(re);
+
+    if (!match || match.index !== 0)
+      return '';
+
+    var string = match[0];
+
+    this.tail = this.tail.substring(string.length);
+    this.pos += string.length;
+
+    return string;
+  };
+
+  /**
+   * Skips all text until the given regular expression can be matched. Returns
+   * the skipped string, which is the entire tail if no match can be made.
+   */
+  Scanner.prototype.scanUntil = function scanUntil (re) {
+    var index = this.tail.search(re), match;
+
+    switch (index) {
+      case -1:
+        match = this.tail;
+        this.tail = '';
+        break;
+      case 0:
+        match = '';
+        break;
+      default:
+        match = this.tail.substring(0, index);
+        this.tail = this.tail.substring(index);
+    }
+
+    this.pos += match.length;
+
+    return match;
+  };
+
+  /**
+   * Represents a rendering context by wrapping a view object and
+   * maintaining a reference to the parent context.
+   */
+  function Context (view, parentContext) {
+    this.view = view;
+    this.cache = { '.': this.view };
+    this.parent = parentContext;
+  }
+
+  /**
+   * Creates a new context using the given view with this context
+   * as the parent.
+   */
+  Context.prototype.push = function push (view) {
+    return new Context(view, this);
+  };
+
+  /**
+   * Returns the value of the given name in this context, traversing
+   * up the context hierarchy if the value is absent in this context's view.
+   */
+  Context.prototype.lookup = function lookup (name) {
+    var cache = this.cache;
+
+    var value;
+    if (cache.hasOwnProperty(name)) {
+      value = cache[name];
+    } else {
+      var context = this, intermediateValue, names, index, lookupHit = false;
+
+      while (context) {
+        if (name.indexOf('.') > 0) {
+          intermediateValue = context.view;
+          names = name.split('.');
+          index = 0;
+
+          /**
+           * Using the dot notion path in `name`, we descend through the
+           * nested objects.
+           *
+           * To be certain that the lookup has been successful, we have to
+           * check if the last object in the path actually has the property
+           * we are looking for. We store the result in `lookupHit`.
+           *
+           * This is specially necessary for when the value has been set to
+           * `undefined` and we want to avoid looking up parent contexts.
+           *
+           * In the case where dot notation is used, we consider the lookup
+           * to be successful even if the last "object" in the path is
+           * not actually an object but a primitive (e.g., a string, or an
+           * integer), because it is sometimes useful to access a property
+           * of an autoboxed primitive, such as the length of a string.
+           **/
+          while (intermediateValue != null && index < names.length) {
+            if (index === names.length - 1)
+              lookupHit = (
+                hasProperty(intermediateValue, names[index])
+                || primitiveHasOwnProperty(intermediateValue, names[index])
+              );
+
+            intermediateValue = intermediateValue[names[index++]];
+          }
+        } else {
+          intermediateValue = context.view[name];
+
+          /**
+           * Only checking against `hasProperty`, which always returns `false` if
+           * `context.view` is not an object. Deliberately omitting the check
+           * against `primitiveHasOwnProperty` if dot notation is not used.
+           *
+           * Consider this example:
+           * ```
+           * Mustache.render("The length of a football field is {{#length}}{{length}}{{/length}}.", {length: "100 yards"})
+           * ```
+           *
+           * If we were to check also against `primitiveHasOwnProperty`, as we do
+           * in the dot notation case, then render call would return:
+           *
+           * "The length of a football field is 9."
+           *
+           * rather than the expected:
+           *
+           * "The length of a football field is 100 yards."
+           **/
+          lookupHit = hasProperty(context.view, name);
+        }
+
+        if (lookupHit) {
+          value = intermediateValue;
+          break;
+        }
+
+        context = context.parent;
+      }
+
+      cache[name] = value;
+    }
+
+    if (isFunction(value))
+      value = value.call(this.view);
+
+    return value;
+  };
+
+  /**
+   * A Writer knows how to take a stream of tokens and render them to a
+   * string, given a context. It also maintains a cache of templates to
+   * avoid the need to parse the same template twice.
+   */
+  function Writer () {
+    this.templateCache = {
+      _cache: {},
+      set: function set (key, value) {
+        this._cache[key] = value;
+      },
+      get: function get (key) {
+        return this._cache[key];
+      },
+      clear: function clear () {
+        this._cache = {};
+      }
+    };
+  }
+
+  /**
+   * Clears all cached templates in this writer.
+   */
+  Writer.prototype.clearCache = function clearCache () {
+    if (typeof this.templateCache !== 'undefined') {
+      this.templateCache.clear();
+    }
+  };
+
+  /**
+   * Parses and caches the given `template` according to the given `tags` or
+   * `mustache.tags` if `tags` is omitted,  and returns the array of tokens
+   * that is generated from the parse.
+   */
+  Writer.prototype.parse = function parse (template, tags) {
+    var cache = this.templateCache;
+    var cacheKey = template + ':' + (tags || mustache.tags).join(':');
+    var isCacheEnabled = typeof cache !== 'undefined';
+    var tokens = isCacheEnabled ? cache.get(cacheKey) : undefined;
+
+    if (tokens == undefined) {
+      tokens = parseTemplate(template, tags);
+      isCacheEnabled && cache.set(cacheKey, tokens);
+    }
+    return tokens;
+  };
+
+  /**
+   * High-level method that is used to render the given `template` with
+   * the given `view`.
+   *
+   * The optional `partials` argument may be an object that contains the
+   * names and templates of partials that are used in the template. It may
+   * also be a function that is used to load partial templates on the fly
+   * that takes a single argument: the name of the partial.
+   *
+   * If the optional `config` argument is given here, then it should be an
+   * object with a `tags` attribute or an `escape` attribute or both.
+   * If an array is passed, then it will be interpreted the same way as
+   * a `tags` attribute on a `config` object.
+   *
+   * The `tags` attribute of a `config` object must be an array with two
+   * string values: the opening and closing tags used in the template (e.g.
+   * [ "<%", "%>" ]). The default is to mustache.tags.
+   *
+   * The `escape` attribute of a `config` object must be a function which
+   * accepts a string as input and outputs a safely escaped string.
+   * If an `escape` function is not provided, then an HTML-safe string
+   * escaping function is used as the default.
+   */
+  Writer.prototype.render = function render (template, view, partials, config) {
+    var tags = this.getConfigTags(config);
+    var tokens = this.parse(template, tags);
+    var context = (view instanceof Context) ? view : new Context(view, undefined);
+    return this.renderTokens(tokens, context, partials, template, config);
+  };
+
+  /**
+   * Low-level method that renders the given array of `tokens` using
+   * the given `context` and `partials`.
+   *
+   * Note: The `originalTemplate` is only ever used to extract the portion
+   * of the original template that was contained in a higher-order section.
+   * If the template doesn't use higher-order sections, this argument may
+   * be omitted.
+   */
+  Writer.prototype.renderTokens = function renderTokens (tokens, context, partials, originalTemplate, config) {
+    var buffer = '';
+
+    var token, symbol, value;
+    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
+      value = undefined;
+      token = tokens[i];
+      symbol = token[0];
+
+      if (symbol === '#') value = this.renderSection(token, context, partials, originalTemplate, config);
+      else if (symbol === '^') value = this.renderInverted(token, context, partials, originalTemplate, config);
+      else if (symbol === '>') value = this.renderPartial(token, context, partials, config);
+      else if (symbol === '&') value = this.unescapedValue(token, context);
+      else if (symbol === 'name') value = this.escapedValue(token, context, config);
+      else if (symbol === 'text') value = this.rawValue(token);
+
+      if (value !== undefined)
+        buffer += value;
+    }
+
+    return buffer;
+  };
+
+  Writer.prototype.renderSection = function renderSection (token, context, partials, originalTemplate, config) {
+    var self = this;
+    var buffer = '';
+    var value = context.lookup(token[1]);
+
+    // This function is used to render an arbitrary template
+    // in the current context by higher-order sections.
+    function subRender (template) {
+      return self.render(template, context, partials, config);
+    }
+
+    if (!value) return;
+
+    if (isArray(value)) {
+      for (var j = 0, valueLength = value.length; j < valueLength; ++j) {
+        buffer += this.renderTokens(token[4], context.push(value[j]), partials, originalTemplate, config);
+      }
+    } else if (typeof value === 'object' || typeof value === 'string' || typeof value === 'number') {
+      buffer += this.renderTokens(token[4], context.push(value), partials, originalTemplate, config);
+    } else if (isFunction(value)) {
+      if (typeof originalTemplate !== 'string')
+        throw new Error('Cannot use higher-order sections without the original template');
+
+      // Extract the portion of the original template that the section contains.
+      value = value.call(context.view, originalTemplate.slice(token[3], token[5]), subRender);
+
+      if (value != null)
+        buffer += value;
+    } else {
+      buffer += this.renderTokens(token[4], context, partials, originalTemplate, config);
+    }
+    return buffer;
+  };
+
+  Writer.prototype.renderInverted = function renderInverted (token, context, partials, originalTemplate, config) {
+    var value = context.lookup(token[1]);
+
+    // Use JavaScript's definition of falsy. Include empty arrays.
+    // See https://github.com/janl/mustache.js/issues/186
+    if (!value || (isArray(value) && value.length === 0))
+      return this.renderTokens(token[4], context, partials, originalTemplate, config);
+  };
+
+  Writer.prototype.indentPartial = function indentPartial (partial, indentation, lineHasNonSpace) {
+    var filteredIndentation = indentation.replace(/[^ \t]/g, '');
+    var partialByNl = partial.split('\n');
+    for (var i = 0; i < partialByNl.length; i++) {
+      if (partialByNl[i].length && (i > 0 || !lineHasNonSpace)) {
+        partialByNl[i] = filteredIndentation + partialByNl[i];
+      }
+    }
+    return partialByNl.join('\n');
+  };
+
+  Writer.prototype.renderPartial = function renderPartial (token, context, partials, config) {
+    if (!partials) return;
+    var tags = this.getConfigTags(config);
+
+    var value = isFunction(partials) ? partials(token[1]) : partials[token[1]];
+    if (value != null) {
+      var lineHasNonSpace = token[6];
+      var tagIndex = token[5];
+      var indentation = token[4];
+      var indentedValue = value;
+      if (tagIndex == 0 && indentation) {
+        indentedValue = this.indentPartial(value, indentation, lineHasNonSpace);
+      }
+      var tokens = this.parse(indentedValue, tags);
+      return this.renderTokens(tokens, context, partials, indentedValue, config);
+    }
+  };
+
+  Writer.prototype.unescapedValue = function unescapedValue (token, context) {
+    var value = context.lookup(token[1]);
+    if (value != null)
+      return value;
+  };
+
+  Writer.prototype.escapedValue = function escapedValue (token, context, config) {
+    var escape = this.getConfigEscape(config) || mustache.escape;
+    var value = context.lookup(token[1]);
+    if (value != null)
+      return (typeof value === 'number' && escape === mustache.escape) ? String(value) : escape(value);
+  };
+
+  Writer.prototype.rawValue = function rawValue (token) {
+    return token[1];
+  };
+
+  Writer.prototype.getConfigTags = function getConfigTags (config) {
+    if (isArray(config)) {
+      return config;
+    }
+    else if (config && typeof config === 'object') {
+      return config.tags;
+    }
+    else {
+      return undefined;
+    }
+  };
+
+  Writer.prototype.getConfigEscape = function getConfigEscape (config) {
+    if (config && typeof config === 'object' && !isArray(config)) {
+      return config.escape;
+    }
+    else {
+      return undefined;
+    }
+  };
+
+  var mustache = {
+    name: 'mustache.js',
+    version: '4.2.0',
+    tags: [ '{{', '}}' ],
+    clearCache: undefined,
+    escape: undefined,
+    parse: undefined,
+    render: undefined,
+    Scanner: undefined,
+    Context: undefined,
+    Writer: undefined,
+    /**
+     * Allows a user to override the default caching strategy, by providing an
+     * object with set, get and clear methods. This can also be used to disable
+     * the cache by setting it to the literal `undefined`.
+     */
+    set templateCache (cache) {
+      defaultWriter.templateCache = cache;
+    },
+    /**
+     * Gets the default or overridden caching object from the default writer.
+     */
+    get templateCache () {
+      return defaultWriter.templateCache;
+    }
+  };
+
+  // All high-level mustache.* functions use this writer.
+  var defaultWriter = new Writer();
+
+  /**
+   * Clears all cached templates in the default writer.
+   */
+  mustache.clearCache = function clearCache () {
+    return defaultWriter.clearCache();
+  };
+
+  /**
+   * Parses and caches the given template in the default writer and returns the
+   * array of tokens it contains. Doing this ahead of time avoids the need to
+   * parse templates on the fly as they are rendered.
+   */
+  mustache.parse = function parse (template, tags) {
+    return defaultWriter.parse(template, tags);
+  };
+
+  /**
+   * Renders the `template` with the given `view`, `partials`, and `config`
+   * using the default writer.
+   */
+  mustache.render = function render (template, view, partials, config) {
+    if (typeof template !== 'string') {
+      throw new TypeError('Invalid template! Template should be a "string" ' +
+                          'but "' + typeStr(template) + '" was given as the first ' +
+                          'argument for mustache#render(template, view, partials)');
+    }
+
+    return defaultWriter.render(template, view, partials, config);
+  };
+
+  // Export the escaping function so that the user may override it.
+  // See https://github.com/janl/mustache.js/issues/244
+  mustache.escape = escapeHtml;
+
+  // Export these mainly for testing, but also for advanced usage.
+  mustache.Scanner = Scanner;
+  mustache.Context = Context;
+  mustache.Writer = Writer;
+
+  return mustache;
+
+})));
+
+
+/***/ }),
+
 /***/ 467:
 /***/ ((module, exports, __nccwpck_require__) => {
 
@@ -17942,6 +18694,7 @@ const readfiles = __nccwpck_require__(5884)
 const { exec } = __nccwpck_require__(2081)
 const core = __nccwpck_require__(2186)
 const path = __nccwpck_require__(1017)
+const Mustache = __nccwpck_require__(8272);
 
 // From https://github.com/toniov/p-iteration/blob/master/lib/static-methods.js - MIT © Antonio V
 const forEach = async (array, callback) => {
@@ -18002,7 +18755,7 @@ const pathIsDirectory = async (path) => {
 	return stat.isDirectory()
 }
 
-const copy = async (src, dest, deleteOrphaned, exclude) => {
+const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
 
 	core.debug(`CP: ${ src } TO ${ dest }`)
 
@@ -18015,8 +18768,21 @@ const copy = async (src, dest, deleteOrphaned, exclude) => {
 
 		return true
 	}
-
-	await fs.copy(src, dest, exclude !== undefined && { filter: filterFunc })
+	let content = await fs.readFile(src)
+	const isVariableFileExists = false
+	try {
+		await fs.stat(src + "." + repoName + ".js")
+		isVariableFileExists = true
+	} catch (err) {
+	}
+	if (isVariableFileExists) {
+		const contentVariable = (await __nccwpck_require__(4030)(src + "." + repoName + ".js")).default
+		content = Mustache.render(content, contentVariable)
+	} else {
+		content = Mustache.render(content)
+	}
+	await fs.writeFile(dest, content)
+	// await fs.copy(src, dest, exclude !== undefined && { filter: filterFunc })
 
 	// If it is a directory and deleteOrphaned is enabled - check if there are any files that were removed from source dir and remove them in destination dir
 	if (deleteOrphaned) {
@@ -18062,11 +18828,270 @@ module.exports = {
 
 /***/ }),
 
+/***/ 4351:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(2186)
+const fs = __nccwpck_require__(7147)
+
+const Git = __nccwpck_require__(109)
+const { forEach, dedent, addTrailingSlash, pathIsDirectory, copy, remove, arrayEquals } = __nccwpck_require__(8505)
+
+const {
+	parseConfig,
+	COMMIT_EACH_FILE,
+	COMMIT_PREFIX,
+	PR_LABELS,
+	ASSIGNEES,
+	DRY_RUN,
+	TMP_DIR,
+	SKIP_CLEANUP,
+	OVERWRITE_EXISTING_PR,
+	SKIP_PR,
+	ORIGINAL_MESSAGE,
+	COMMIT_AS_PR_TITLE,
+	FORK,
+	REVIEWERS,
+	TEAM_REVIEWERS
+} = __nccwpck_require__(4570)
+
+const run = async () => {
+	// Reuse octokit for each repo
+	const git = new Git()
+
+	const repos = await parseConfig()
+
+	const prUrls = []
+
+	await forEach(repos, async (item) => {
+		core.info(`Repository Info`)
+		core.info(`Slug		: ${ item.repo.name }`)
+		core.info(`Owner		: ${ item.repo.user }`)
+		core.info(`Https Url	: https://${ item.repo.fullName }`)
+		core.info(`Branch		: ${ item.repo.branch }`)
+		core.info('	')
+		try {
+
+			// Clone and setup the git repository locally
+			await git.initRepo(item.repo)
+
+			let existingPr
+			if (SKIP_PR === false) {
+				await git.createPrBranch()
+
+				// Check for existing PR and add warning message that the PR maybe about to change
+				existingPr = OVERWRITE_EXISTING_PR ? await git.findExistingPr() : undefined
+				if (existingPr && DRY_RUN === false) {
+					core.info(`Found existing PR ${ existingPr.number }`)
+					await git.setPrWarning()
+				}
+			}
+
+			core.info(`Locally syncing file(s) between source and target repository`)
+			const modified = []
+
+			// Loop through all selected files of the source repo
+			await forEach(item.files, async (file) => {
+				const fileExists = fs.existsSync(file.source)
+				if (fileExists === false) return core.warning(`Source ${ file.source } not found`)
+
+				const localDestination = `${ git.workingDir }/${ file.dest }`
+
+				const destExists = fs.existsSync(localDestination)
+				if (destExists === true && file.replace === false) return core.warning(`File(s) already exist(s) in destination and 'replace' option is set to false`)
+
+				const isDirectory = await pathIsDirectory(file.source)
+				const source = isDirectory ? `${ addTrailingSlash(file.source) }` : file.source
+				const dest = isDirectory ? `${ addTrailingSlash(localDestination) }` : localDestination
+
+				if (isDirectory) core.info(`Source is directory`)
+
+				const deleteOrphaned = isDirectory && file.deleteOrphaned
+
+				await copy(source, dest, item.repo.name, deleteOrphaned, file.exclude)
+
+				await git.add(file.dest)
+
+				// Commit each file separately, if option is set to false commit all files at once later
+				if (COMMIT_EACH_FILE === true) {
+					const hasChanges = await git.hasChanges()
+
+					if (hasChanges === false) return core.debug('File(s) already up to date')
+
+					core.debug(`Creating commit for file(s) ${ file.dest }`)
+
+					// Use different commit/pr message based on if the source is a directory or file
+					const directory = isDirectory ? 'directory' : ''
+					const otherFiles = isDirectory ? 'and copied all sub files/folders' : ''
+					const useOriginalCommitMessage = ORIGINAL_MESSAGE && git.isOneCommitPush() && arrayEquals(await git.getChangesFromLastCommit(file.source), await git.changes(file.dest))
+
+					const message = {
+						true: {
+							commit: useOriginalCommitMessage ? git.originalCommitMessage() : `${ COMMIT_PREFIX } Synced local '${ file.dest }' with remote '${ file.source }'`,
+							pr: `Synced local ${ directory } <code>${ file.dest }</code> with remote ${ directory } <code>${ file.source }</code>`
+						},
+						false: {
+							commit: useOriginalCommitMessage ? git.originalCommitMessage() : `${ COMMIT_PREFIX } Created local '${ file.dest }' from remote '${ file.source }'`,
+							pr: `Created local ${ directory } <code>${ file.dest }</code> ${ otherFiles } from remote ${ directory } <code>${ file.source }</code>`
+						}
+					}
+
+					// Commit and add file to modified array so we later know if there are any changes to actually push
+					await git.commit(message[destExists].commit)
+					modified.push({
+						dest: file.dest,
+						source: file.source,
+						message: message[destExists].pr,
+						useOriginalMessage: useOriginalCommitMessage,
+						commitMessage: message[destExists].commit
+					})
+				}
+			})
+
+			if (DRY_RUN) {
+				core.warning('Dry run, no changes will be pushed')
+
+				core.debug('Git Status:')
+				core.debug(await git.status())
+
+				return
+			}
+
+			const hasChanges = await git.hasChanges()
+
+			// If no changes left and nothing was modified we can assume nothing has changed/needs to be pushed
+			if (hasChanges === false && modified.length < 1) {
+				core.info('File(s) already up to date')
+
+				if (existingPr) await git.removePrWarning()
+
+				return
+			}
+
+			// If there are still local changes left (i.e. not committed each file separately), commit them before pushing
+			if (hasChanges === true) {
+				core.debug(`Creating commit for remaining files`)
+
+				let useOriginalCommitMessage = ORIGINAL_MESSAGE && git.isOneCommitPush()
+				if (useOriginalCommitMessage) {
+					await forEach(item.files, async (file) => {
+						useOriginalCommitMessage = useOriginalCommitMessage && arrayEquals(await git.getChangesFromLastCommit(file.source), await git.changes(file.dest))
+					})
+				}
+
+				const commitMessage = useOriginalCommitMessage ? git.originalCommitMessage() : undefined
+				await git.commit(commitMessage)
+				modified.push({
+					dest: git.workingDir,
+					useOriginalMessage: useOriginalCommitMessage,
+					commitMessage: commitMessage
+				})
+			}
+
+			core.info(`Pushing changes to target repository`)
+			await git.push()
+
+			if (SKIP_PR === false) {
+				// If each file was committed separately, list them in the PR description
+				const changedFiles = dedent(`
+					<details>
+					<summary>Changed files</summary>
+					<ul>
+					${ modified.map((file) => `<li>${ file.message }</li>`).join('') }
+					</ul>
+					</details>
+				`)
+
+				const useCommitAsPRTitle = COMMIT_AS_PR_TITLE && modified.length === 1 && modified[0].useOriginalMessage
+				const pullRequest = await git.createOrUpdatePr(COMMIT_EACH_FILE ? changedFiles : '', useCommitAsPRTitle ? modified[0].commitMessage.split('\n', 1)[0].trim() : undefined)
+
+				core.notice(`Pull Request #${ pullRequest.number } created/updated: ${ pullRequest.html_url }`)
+				prUrls.push(pullRequest.html_url)
+
+				if (PR_LABELS !== undefined && PR_LABELS.length > 0 && !FORK) {
+					core.info(`Adding label(s) "${ PR_LABELS.join(', ') }" to PR`)
+					await git.addPrLabels(PR_LABELS)
+				}
+
+				if (ASSIGNEES !== undefined && ASSIGNEES.length > 0 && !FORK) {
+					core.info(`Adding assignee(s) "${ ASSIGNEES.join(', ') }" to PR`)
+					await git.addPrAssignees(ASSIGNEES)
+				}
+
+				if (REVIEWERS !== undefined && REVIEWERS.length > 0 && !FORK) {
+					core.info(`Adding reviewer(s) "${ REVIEWERS.join(', ') }" to PR`)
+					await git.addPrReviewers(REVIEWERS)
+				}
+
+				if (TEAM_REVIEWERS !== undefined && TEAM_REVIEWERS.length > 0 && !FORK) {
+					core.info(`Adding team reviewer(s) "${ TEAM_REVIEWERS.join(', ') }" to PR`)
+					await git.addPrTeamReviewers(TEAM_REVIEWERS)
+				}
+			}
+
+			core.info('	')
+		} catch (err) {
+			core.setFailed(err.message)
+			core.debug(err)
+		}
+	})
+
+	// If we created any PRs, set their URLs as the output
+	if (prUrls) {
+		core.setOutput('pull_request_urls', prUrls)
+	}
+
+	if (SKIP_CLEANUP === true) {
+		core.info('Skipping cleanup')
+		return
+	}
+
+	await remove(TMP_DIR)
+	core.info('Cleanup complete')
+}
+
+run()
+	.then(() => {})
+	.catch((err) => {
+		core.setFailed(err.message)
+		core.debug(err)
+	})
+
+/***/ }),
+
 /***/ 2877:
 /***/ ((module) => {
 
 module.exports = eval("require")("encoding");
 
+
+/***/ }),
+
+/***/ 4030:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var map = {
+	"./config.js": 4570,
+	"./git.js": 109,
+	"./helpers.js": 8505,
+	"./index.js": 4351
+};
+
+function webpackAsyncContext(req) {
+	return Promise.resolve().then(() => {
+		if(!__nccwpck_require__.o(map, req)) {
+			var e = new Error("Cannot find module '" + req + "'");
+			e.code = 'MODULE_NOT_FOUND';
+			throw e;
+		}
+
+		var id = map[req];
+		return __nccwpck_require__.t(id, 7 | 16);
+	});
+}
+webpackAsyncContext.keys = () => (Object.keys(map));
+webpackAsyncContext.id = 4030;
+module.exports = webpackAsyncContext;
 
 /***/ }),
 
@@ -18223,241 +19248,83 @@ module.exports = require("zlib");
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	(() => {
+/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__nccwpck_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__nccwpck_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach((key) => (def[key] = () => (value[key])));
+/******/ 			}
+/******/ 			def['default'] = () => (value);
+/******/ 			__nccwpck_require__.d(ns, def);
+/******/ 			return ns;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		// Since all referenced chunks are already included
+/******/ 		// in this file, this function is empty here.
+/******/ 		__nccwpck_require__.e = () => (Promise.resolve());
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-const core = __nccwpck_require__(2186)
-const fs = __nccwpck_require__(7147)
-
-const Git = __nccwpck_require__(109)
-const { forEach, dedent, addTrailingSlash, pathIsDirectory, copy, remove, arrayEquals } = __nccwpck_require__(8505)
-
-const {
-	parseConfig,
-	COMMIT_EACH_FILE,
-	COMMIT_PREFIX,
-	PR_LABELS,
-	ASSIGNEES,
-	DRY_RUN,
-	TMP_DIR,
-	SKIP_CLEANUP,
-	OVERWRITE_EXISTING_PR,
-	SKIP_PR,
-	ORIGINAL_MESSAGE,
-	COMMIT_AS_PR_TITLE,
-	FORK,
-	REVIEWERS,
-	TEAM_REVIEWERS
-} = __nccwpck_require__(4570)
-
-const run = async () => {
-	// Reuse octokit for each repo
-	const git = new Git()
-
-	const repos = await parseConfig()
-
-	const prUrls = []
-
-	await forEach(repos, async (item) => {
-		core.info(`Repository Info`)
-		core.info(`Slug		: ${ item.repo.name }`)
-		core.info(`Owner		: ${ item.repo.user }`)
-		core.info(`Https Url	: https://${ item.repo.fullName }`)
-		core.info(`Branch		: ${ item.repo.branch }`)
-		core.info('	')
-		try {
-
-			// Clone and setup the git repository locally
-			await git.initRepo(item.repo)
-
-			let existingPr
-			if (SKIP_PR === false) {
-				await git.createPrBranch()
-
-				// Check for existing PR and add warning message that the PR maybe about to change
-				existingPr = OVERWRITE_EXISTING_PR ? await git.findExistingPr() : undefined
-				if (existingPr && DRY_RUN === false) {
-					core.info(`Found existing PR ${ existingPr.number }`)
-					await git.setPrWarning()
-				}
-			}
-
-			core.info(`Locally syncing file(s) between source and target repository`)
-			const modified = []
-
-			// Loop through all selected files of the source repo
-			await forEach(item.files, async (file) => {
-				const fileExists = fs.existsSync(file.source)
-				if (fileExists === false) return core.warning(`Source ${ file.source } not found`)
-
-				const localDestination = `${ git.workingDir }/${ file.dest }`
-
-				const destExists = fs.existsSync(localDestination)
-				if (destExists === true && file.replace === false) return core.warning(`File(s) already exist(s) in destination and 'replace' option is set to false`)
-
-				const isDirectory = await pathIsDirectory(file.source)
-				const source = isDirectory ? `${ addTrailingSlash(file.source) }` : file.source
-				const dest = isDirectory ? `${ addTrailingSlash(localDestination) }` : localDestination
-
-				if (isDirectory) core.info(`Source is directory`)
-
-				const deleteOrphaned = isDirectory && file.deleteOrphaned
-
-				await copy(source, dest, deleteOrphaned, file.exclude)
-
-				await git.add(file.dest)
-
-				// Commit each file separately, if option is set to false commit all files at once later
-				if (COMMIT_EACH_FILE === true) {
-					const hasChanges = await git.hasChanges()
-
-					if (hasChanges === false) return core.debug('File(s) already up to date')
-
-					core.debug(`Creating commit for file(s) ${ file.dest }`)
-
-					// Use different commit/pr message based on if the source is a directory or file
-					const directory = isDirectory ? 'directory' : ''
-					const otherFiles = isDirectory ? 'and copied all sub files/folders' : ''
-					const useOriginalCommitMessage = ORIGINAL_MESSAGE && git.isOneCommitPush() && arrayEquals(await git.getChangesFromLastCommit(file.source), await git.changes(file.dest))
-
-					const message = {
-						true: {
-							commit: useOriginalCommitMessage ? git.originalCommitMessage() : `${ COMMIT_PREFIX } Synced local '${ file.dest }' with remote '${ file.source }'`,
-							pr: `Synced local ${ directory } <code>${ file.dest }</code> with remote ${ directory } <code>${ file.source }</code>`
-						},
-						false: {
-							commit: useOriginalCommitMessage ? git.originalCommitMessage() : `${ COMMIT_PREFIX } Created local '${ file.dest }' from remote '${ file.source }'`,
-							pr: `Created local ${ directory } <code>${ file.dest }</code> ${ otherFiles } from remote ${ directory } <code>${ file.source }</code>`
-						}
-					}
-
-					// Commit and add file to modified array so we later know if there are any changes to actually push
-					await git.commit(message[destExists].commit)
-					modified.push({
-						dest: file.dest,
-						source: file.source,
-						message: message[destExists].pr,
-						useOriginalMessage: useOriginalCommitMessage,
-						commitMessage: message[destExists].commit
-					})
-				}
-			})
-
-			if (DRY_RUN) {
-				core.warning('Dry run, no changes will be pushed')
-
-				core.debug('Git Status:')
-				core.debug(await git.status())
-
-				return
-			}
-
-			const hasChanges = await git.hasChanges()
-
-			// If no changes left and nothing was modified we can assume nothing has changed/needs to be pushed
-			if (hasChanges === false && modified.length < 1) {
-				core.info('File(s) already up to date')
-
-				if (existingPr) await git.removePrWarning()
-
-				return
-			}
-
-			// If there are still local changes left (i.e. not committed each file separately), commit them before pushing
-			if (hasChanges === true) {
-				core.debug(`Creating commit for remaining files`)
-
-				let useOriginalCommitMessage = ORIGINAL_MESSAGE && git.isOneCommitPush()
-				if (useOriginalCommitMessage) {
-					await forEach(item.files, async (file) => {
-						useOriginalCommitMessage = useOriginalCommitMessage && arrayEquals(await git.getChangesFromLastCommit(file.source), await git.changes(file.dest))
-					})
-				}
-
-				const commitMessage = useOriginalCommitMessage ? git.originalCommitMessage() : undefined
-				await git.commit(commitMessage)
-				modified.push({
-					dest: git.workingDir,
-					useOriginalMessage: useOriginalCommitMessage,
-					commitMessage: commitMessage
-				})
-			}
-
-			core.info(`Pushing changes to target repository`)
-			await git.push()
-
-			if (SKIP_PR === false) {
-				// If each file was committed separately, list them in the PR description
-				const changedFiles = dedent(`
-					<details>
-					<summary>Changed files</summary>
-					<ul>
-					${ modified.map((file) => `<li>${ file.message }</li>`).join('') }
-					</ul>
-					</details>
-				`)
-
-				const useCommitAsPRTitle = COMMIT_AS_PR_TITLE && modified.length === 1 && modified[0].useOriginalMessage
-				const pullRequest = await git.createOrUpdatePr(COMMIT_EACH_FILE ? changedFiles : '', useCommitAsPRTitle ? modified[0].commitMessage.split('\n', 1)[0].trim() : undefined)
-
-				core.notice(`Pull Request #${ pullRequest.number } created/updated: ${ pullRequest.html_url }`)
-				prUrls.push(pullRequest.html_url)
-
-				if (PR_LABELS !== undefined && PR_LABELS.length > 0 && !FORK) {
-					core.info(`Adding label(s) "${ PR_LABELS.join(', ') }" to PR`)
-					await git.addPrLabels(PR_LABELS)
-				}
-
-				if (ASSIGNEES !== undefined && ASSIGNEES.length > 0 && !FORK) {
-					core.info(`Adding assignee(s) "${ ASSIGNEES.join(', ') }" to PR`)
-					await git.addPrAssignees(ASSIGNEES)
-				}
-
-				if (REVIEWERS !== undefined && REVIEWERS.length > 0 && !FORK) {
-					core.info(`Adding reviewer(s) "${ REVIEWERS.join(', ') }" to PR`)
-					await git.addPrReviewers(REVIEWERS)
-				}
-
-				if (TEAM_REVIEWERS !== undefined && TEAM_REVIEWERS.length > 0 && !FORK) {
-					core.info(`Adding team reviewer(s) "${ TEAM_REVIEWERS.join(', ') }" to PR`)
-					await git.addPrTeamReviewers(TEAM_REVIEWERS)
-				}
-			}
-
-			core.info('	')
-		} catch (err) {
-			core.setFailed(err.message)
-			core.debug(err)
-		}
-	})
-
-	// If we created any PRs, set their URLs as the output
-	if (prUrls) {
-		core.setOutput('pull_request_urls', prUrls)
-	}
-
-	if (SKIP_CLEANUP === true) {
-		core.info('Skipping cleanup')
-		return
-	}
-
-	await remove(TMP_DIR)
-	core.info('Cleanup complete')
-}
-
-run()
-	.then(() => {})
-	.catch((err) => {
-		core.setFailed(err.message)
-		core.debug(err)
-	})
-})();
-
-module.exports = __webpack_exports__;
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(4351);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
