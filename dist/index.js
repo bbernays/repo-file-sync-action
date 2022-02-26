@@ -18772,6 +18772,7 @@ const copyTemplated = async (src, dest, repoName) => {
 				const errMessage = `Template values not found in ${templateValuesPath}. maybe missing exports.values ?`
 				core.error(errMessage)
 				core.setFailed(errMessage)
+				return
 			}
 			core.info(`templating src ${src} with ${templateValues}`)
 			content = Mustache.render(content, templateValues)
