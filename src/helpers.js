@@ -65,7 +65,7 @@ const pathIsDirectory = async (path) => {
 }
 
 const copyTemplated = async (src, dest, repoName) => {
-	core.debug(`CP: ${ src } TO ${ dest }`)
+	core.info(`CP: ${ src } TO ${ dest }`)
 	let content = await fs.readFile(src, 'ascii')
 	if (content.startsWith("{{=<% %>=}}")) {
 		const isVariableFileExists = false
@@ -75,8 +75,15 @@ const copyTemplated = async (src, dest, repoName) => {
 		} catch (err) {
 		}
 		if (isVariableFileExists) {
-			const contentVariable = (await import(src + "." + repoName + ".js")).default
-			content = Mustache.render(content, contentVariable)
+			templateValuesPath = src + "." + repoName + ".js"
+			let templateValues = (await import(templateValuesPath)).values
+			if (templateValues === undefined) {
+				const errMessage = `Template values not found in ${templateValuesPath}. maybe missing exports.values ?`
+				core.error(errMessage)
+				core.setFailed(errMessage)
+			}
+			core.info(`templating src ${src} with ${templateValues}`)
+			content = Mustache.render(content, templateValues)
 		} else {
 			content = Mustache.render(content)
 		}
@@ -92,10 +99,8 @@ const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
 		}
 		return true
 	}
-	core.debug(`copy ${ src }`)
 	const isDirectory = await pathIsDirectory(src)
 	if (isDirectory) {
-		core.debug(`path is a directory ${ src }`)
 		const srcFileList = await readfiles(src, { readContents: false, hidden: true })
 		for (const srcFile of srcFileList) {
 			const srcPath = path.join(src, srcFile)
