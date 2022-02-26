@@ -65,6 +65,7 @@ const pathIsDirectory = async (path) => {
 }
 
 const copyTemplated = async (src, dest, repoName) => {
+	core.debug(`CP: ${ src } TO ${ dest }`)
 	let content = await fs.readFile(src, 'ascii')
 	if (content.startsWith("{{=<% %>=}}")) {
 		const isVariableFileExists = false
@@ -84,16 +85,11 @@ const copyTemplated = async (src, dest, repoName) => {
 }
 
 const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
-
-	core.debug(`CP: ${ src } TO ${ dest }`)
-
 	const filterFunc = (file) => {
-
 		if (exclude !== undefined && exclude.includes(file)) {
 			core.debug(`Excluding file ${ file }`)
 			return false
 		}
-
 		return true
 	}
 
