@@ -3,7 +3,7 @@ const readfiles = require('node-readfiles')
 const { exec } = require('child_process')
 const core = require('@actions/core')
 const path = require('path')
-const Mustache = require('mustache');
+const Mustache = require('mustache')
 
 // From https://github.com/toniov/p-iteration/blob/master/lib/static-methods.js - MIT © Antonio V
 const forEach = async (array, callback) => {
@@ -67,21 +67,21 @@ const pathIsDirectory = async (path) => {
 const copyTemplated = async (src, dest, repoName) => {
 	core.info(`CP: ${ src } TO ${ dest }`)
 	let content = await fs.readFile(src, 'ascii')
-	if (content.startsWith("{{=<% %>=}}")) {
-		const templateValuesPath = src + "." + repoName + ".values.js"
+	if (content.startsWith('{{=<% %>=}}')) {
+		const templateValuesPath = src + '.' + repoName + '.values.js'
 		if (fs.existsSync(templateValuesPath)) {
-			core.info(`CP: templated values file ${templateValuesPath} exist`)
-			let templateValues = (await import("./" + src + "." + repoName + ".values" )).values
+			core.info(`CP: templated values file ${ templateValuesPath } exist`)
+			const templateValues = require('./' + src + '.' + repoName + '.values').values
 			if (templateValues === undefined) {
-				const errMessage = `Template values not found in ${templateValuesPath}. maybe missing exports.values ?`
+				const errMessage = `Template values not found in ${ templateValuesPath }. maybe missing exports.values ?`
 				core.error(errMessage)
 				core.setFailed(errMessage)
 				return
 			}
-			core.info(`templating src ${src} with ${templateValues}`)
+			core.info(`templating src ${ src } with ${ templateValues }`)
 			content = Mustache.render(content, templateValues)
 		} else {
-			core.info(`CP: templated values file ${templateValuesPath} doesn't exist`)
+			core.info(`CP: templated values file ${ templateValuesPath } doesn't exist`)
 			content = Mustache.render(content, {})
 		}
 	}
@@ -89,15 +89,11 @@ const copyTemplated = async (src, dest, repoName) => {
 }
 
 const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
-	const filterFunc = (file) => {
-
-		return true
-	}
 	const isDirectory = await pathIsDirectory(src)
 	if (isDirectory) {
 		const srcFileList = await readfiles(src, { readContents: false, hidden: true })
 		for (const srcFile of srcFileList) {
-			if ((exclude !== undefined && exclude.includes(srcFile)) || srcFile.endsWith(".values.js")){
+			if ((exclude !== undefined && exclude.includes(srcFile)) || srcFile.endsWith('.values.js')) {
 				core.debug(`Excluding file ${ srcFile }`)
 				continue
 			}

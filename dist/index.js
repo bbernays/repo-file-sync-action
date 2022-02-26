@@ -18694,7 +18694,7 @@ const readfiles = __nccwpck_require__(5884)
 const { exec } = __nccwpck_require__(2081)
 const core = __nccwpck_require__(2186)
 const path = __nccwpck_require__(1017)
-const Mustache = __nccwpck_require__(8272);
+const Mustache = __nccwpck_require__(8272)
 
 // From https://github.com/toniov/p-iteration/blob/master/lib/static-methods.js - MIT © Antonio V
 const forEach = async (array, callback) => {
@@ -18758,21 +18758,21 @@ const pathIsDirectory = async (path) => {
 const copyTemplated = async (src, dest, repoName) => {
 	core.info(`CP: ${ src } TO ${ dest }`)
 	let content = await fs.readFile(src, 'ascii')
-	if (content.startsWith("{{=<% %>=}}")) {
-		const templateValuesPath = src + "." + repoName + ".values.js"
+	if (content.startsWith('{{=<% %>=}}')) {
+		const templateValuesPath = src + '.' + repoName + '.values.js'
 		if (fs.existsSync(templateValuesPath)) {
-			core.info(`CP: templated values file ${templateValuesPath} exist`)
-			let templateValues = (await __nccwpck_require__(7708)("./" + src + "." + repoName + ".values")).values
+			core.info(`CP: templated values file ${ templateValuesPath } exist`)
+			const templateValues = require('./' + src + '.' + repoName + '.values').values
 			if (templateValues === undefined) {
-				const errMessage = `Template values not found in ${templateValuesPath}. maybe missing exports.values ?`
+				const errMessage = `Template values not found in ${ templateValuesPath }. maybe missing exports.values ?`
 				core.error(errMessage)
 				core.setFailed(errMessage)
 				return
 			}
-			core.info(`templating src ${src} with ${templateValues}`)
+			core.info(`templating src ${ src } with ${ templateValues }`)
 			content = Mustache.render(content, templateValues)
 		} else {
-			core.info(`CP: templated values file ${templateValuesPath} doesn't exist`)
+			core.info(`CP: templated values file ${ templateValuesPath } doesn't exist`)
 			content = Mustache.render(content, {})
 		}
 	}
@@ -18780,15 +18780,11 @@ const copyTemplated = async (src, dest, repoName) => {
 }
 
 const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
-	const filterFunc = (file) => {
-
-		return true
-	}
 	const isDirectory = await pathIsDirectory(src)
 	if (isDirectory) {
 		const srcFileList = await readfiles(src, { readContents: false, hidden: true })
 		for (const srcFile of srcFileList) {
-			if ((exclude !== undefined && exclude.includes(srcFile)) || srcFile.endsWith(".values.js")){
+			if ((exclude !== undefined && exclude.includes(srcFile)) || srcFile.endsWith('.values.js')) {
 				core.debug(`Excluding file ${ srcFile }`)
 				continue
 			}
@@ -18852,25 +18848,6 @@ module.exports = {
 
 module.exports = eval("require")("encoding");
 
-
-/***/ }),
-
-/***/ 7708:
-/***/ ((module) => {
-
-function webpackEmptyAsyncContext(req) {
-	// Here Promise.resolve().then() is used instead of new Promise() to prevent
-	// uncaught exception popping up in devtools
-	return Promise.resolve().then(() => {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	});
-}
-webpackEmptyAsyncContext.keys = () => ([]);
-webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 7708;
-module.exports = webpackEmptyAsyncContext;
 
 /***/ }),
 
@@ -19027,11 +19004,6 @@ module.exports = require("zlib");
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
