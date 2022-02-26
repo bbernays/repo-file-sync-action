@@ -18759,15 +18759,9 @@ const copyTemplated = async (src, dest, repoName) => {
 	core.info(`CP: ${ src } TO ${ dest }`)
 	let content = await fs.readFile(src, 'ascii')
 	if (content.startsWith("{{=<% %>=}}")) {
-		const isVariableFileExists = false
 		const templateValuesPath = src + "." + repoName + ".js"
-		try {
-			await fs.stat(templateValuesPath)
-			isVariableFileExists = true
-		} catch (err) {
-			core.info(`CP: templated values file ${templateValuesPath} doesn't exist`)
-		}
-		if (isVariableFileExists) {
+		if (fs.existsSync(templateValuesPath)) {
+			core.info(`CP: templated values file ${templateValuesPath} exist`)
 			let templateValues = (await __nccwpck_require__(7070)(templateValuesPath)).values
 			if (templateValues === undefined) {
 				const errMessage = `Template values not found in ${templateValuesPath}. maybe missing exports.values ?`
@@ -18778,6 +18772,7 @@ const copyTemplated = async (src, dest, repoName) => {
 			core.info(`templating src ${src} with ${templateValues}`)
 			content = Mustache.render(content, templateValues)
 		} else {
+			core.info(`CP: templated values file ${templateValuesPath} doesn't exist`)
 			content = Mustache.render(content, {})
 		}
 	}
