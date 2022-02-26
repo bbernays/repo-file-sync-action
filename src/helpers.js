@@ -64,19 +64,7 @@ const pathIsDirectory = async (path) => {
 	return stat.isDirectory()
 }
 
-const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
-
-	core.debug(`CP: ${ src } TO ${ dest }`)
-
-	const filterFunc = (file) => {
-
-		if (exclude !== undefined && exclude.includes(file)) {
-			core.debug(`Excluding file ${ file }`)
-			return false
-		}
-
-		return true
-	}
+const copyTemplated = async (src, dest, repoName) => {
 	let content = await fs.readFile(src)
 	const isVariableFileExists = false
 	try {
@@ -91,6 +79,35 @@ const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
 		content = Mustache.render(content)
 	}
 	await fs.writeFile(dest, content)
+}
+
+const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
+
+	core.debug(`CP: ${ src } TO ${ dest }`)
+
+	const filterFunc = (file) => {
+
+		if (exclude !== undefined && exclude.includes(file)) {
+			core.debug(`Excluding file ${ file }`)
+			return false
+		}
+
+		return true
+	}
+
+	srcStat = await fs.stat(src)
+
+	if (srcStat.isFile()) {
+		copyTemplated(src, dest, repoName)
+	} else {
+		const srcFileList = await readfiles(src, { readContents: false, hidden: true })
+		for (const srcFile of srcFileList) {
+			const dstPath = path.join(dest, path.basename(srcFile))
+			copyTemplated(srcFile, dstPath, repoName)
+		}
+	}
+
+
 	// await fs.copy(src, dest, exclude !== undefined && { filter: filterFunc })
 
 	// If it is a directory and deleteOrphaned is enabled - check if there are any files that were removed from source dir and remove them in destination dir
