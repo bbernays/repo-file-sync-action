@@ -18772,7 +18772,7 @@ const copyTemplated = async (src, dest, repoName) => {
 			content = Mustache.render(content)
 		}
 	}
-	await fs.writeFile(dest, content)
+	await fs.writeFile(dest, content, 'ascii')
 }
 
 const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
