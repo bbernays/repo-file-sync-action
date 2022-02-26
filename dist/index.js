@@ -18781,16 +18781,17 @@ const copyTemplated = async (src, dest, repoName) => {
 
 const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
 	const filterFunc = (file) => {
-		if (exclude !== undefined && exclude.includes(file)) {
-			core.debug(`Excluding file ${ file }`)
-			return false
-		}
+
 		return true
 	}
 	const isDirectory = await pathIsDirectory(src)
 	if (isDirectory) {
 		const srcFileList = await readfiles(src, { readContents: false, hidden: true })
 		for (const srcFile of srcFileList) {
+			if ((exclude !== undefined && exclude.includes(srcFile)) || srcFile.endsWith(".values.js")){
+				core.debug(`Excluding file ${ srcFile }`)
+				continue
+			}
 			const srcPath = path.join(src, srcFile)
 			const dstPath = path.join(dest, path.basename(srcFile))
 			copyTemplated(srcPath, dstPath, repoName)
