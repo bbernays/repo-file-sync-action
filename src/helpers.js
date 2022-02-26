@@ -87,6 +87,8 @@ const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
 	if (isVariableFileExists) {
 		const contentVariable = (await import(src + "." + repoName + ".js")).default
 		content = Mustache.render(content, contentVariable)
+	} else {
+		content = Mustache.render(content)
 	}
 	await fs.writeFile(dest, content)
 	// await fs.copy(src, dest, exclude !== undefined && { filter: filterFunc })
