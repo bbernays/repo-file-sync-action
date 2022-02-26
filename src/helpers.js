@@ -66,6 +66,10 @@ const pathIsDirectory = async (path) => {
 
 const copyTemplated = async (src, dest, repoName) => {
 	let content = await fs.readFile(src, 'utf-8')
+	if (!content.startsWith("{{=<% %>=}}")) {
+		await fs.writeFile(dest, content)
+		return
+	}
 	const isVariableFileExists = false
 	try {
 		await fs.stat(src + "." + repoName + ".js")
