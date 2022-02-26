@@ -104,7 +104,7 @@ const run = async () => {
 					}
 
 					// Commit and add file to modified array so we later know if there are any changes to actually push
-					await git.commit(message[destExists].commit)
+					await git.commit('chore: Synced .github')
 					modified.push({
 						dest: file.dest,
 						source: file.source,
