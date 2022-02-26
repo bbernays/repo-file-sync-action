@@ -18777,7 +18777,7 @@ const copyTemplated = async (src, dest, repoName) => {
 			core.info(`templating src ${src} with ${templateValues}`)
 			content = Mustache.render(content, templateValues)
 		} else {
-			content = Mustache.render(content)
+			content = Mustache.render(content, {})
 		}
 	}
 	await fs.writeFile(dest, content, 'ascii')
