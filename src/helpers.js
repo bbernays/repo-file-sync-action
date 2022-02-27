@@ -79,7 +79,7 @@ const copyTemplated = async (src, dest, repoName) => {
 				core.setFailed(errMessage)
 				return
 			}
-			core.info(`templating src ${ src } with ${ templateValues }`)
+			core.info(`templating src ${ src } with ${ JSON.stringify(templateValues) }`)
 			content = Mustache.render(content, templateValues)
 		} else {
 			core.info(`CP: templated values file ${ templateValuesPath } doesn't exist`)

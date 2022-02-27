@@ -18770,7 +18770,7 @@ const copyTemplated = async (src, dest, repoName) => {
 				core.setFailed(errMessage)
 				return
 			}
-			core.info(`templating src ${ src } with ${ templateValues }`)
+			core.info(`templating src ${ src } with ${ JSON.stringify(templateValues) }`)
 			content = Mustache.render(content, templateValues)
 		} else {
 			core.info(`CP: templated values file ${ templateValuesPath } doesn't exist`)
@@ -18785,7 +18785,7 @@ const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
 	if (isDirectory) {
 		const srcFileList = await readfiles(src, { readContents: false, hidden: true })
 		for (const srcFile of srcFileList) {
-			if ((exclude !== undefined && exclude.includes(srcFile)) || srcFile.endsWith('.values.js')) {
+			if ((exclude !== undefined && exclude.includes(srcFile)) || srcFile.endsWith('.values.yml')) {
 				core.debug(`Excluding file ${ srcFile }`)
 				continue
 			}
