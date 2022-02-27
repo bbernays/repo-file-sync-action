@@ -18694,7 +18694,7 @@ const readfiles = __nccwpck_require__(5884)
 const { exec } = __nccwpck_require__(2081)
 const core = __nccwpck_require__(2186)
 const path = __nccwpck_require__(1017)
-const Mustache = __nccwpck_require__(8272)
+const mustache = __nccwpck_require__(8272)
 const yaml = __nccwpck_require__(1917)
 
 // From https://github.com/toniov/p-iteration/blob/master/lib/static-methods.js - MIT © Antonio V
@@ -18773,10 +18773,10 @@ const copyTemplated = async (src, dest, repoName) => {
 				return
 			}
 			core.info(`templating src ${ src } with ${ JSON.stringify(templateValues) }`)
-			content = Mustache.render(content, templateValues)
+			content = mustache.render(content, {}, templateValues)
 		} else {
 			core.info(`CP: templated values file ${ templateValuesPath } doesn't exist`)
-			content = Mustache.render(content, {})
+			content = mustache.render(content, {}, {})
 		}
 	}
 	await fs.writeFile(dest, content, 'ascii')

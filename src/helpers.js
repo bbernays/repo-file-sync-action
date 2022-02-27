@@ -3,7 +3,7 @@ const readfiles = require('node-readfiles')
 const { exec } = require('child_process')
 const core = require('@actions/core')
 const path = require('path')
-const Mustache = require('mustache')
+const mustache = require('mustache')
 const yaml = require('js-yaml')
 
 // From https://github.com/toniov/p-iteration/blob/master/lib/static-methods.js - MIT © Antonio V
@@ -82,10 +82,10 @@ const copyTemplated = async (src, dest, repoName) => {
 				return
 			}
 			core.info(`templating src ${ src } with ${ JSON.stringify(templateValues) }`)
-			content = Mustache.render(content, templateValues)
+			content = mustache.render(content, {}, templateValues)
 		} else {
 			core.info(`CP: templated values file ${ templateValuesPath } doesn't exist`)
-			content = Mustache.render(content, {})
+			content = mustache.render(content, {}, {})
 		}
 	}
 	await fs.writeFile(dest, content, 'ascii')
