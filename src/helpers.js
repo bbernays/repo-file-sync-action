@@ -4,6 +4,7 @@ const { exec } = require('child_process')
 const core = require('@actions/core')
 const path = require('path')
 const Mustache = require('mustache')
+const yaml = require('js-yaml')
 
 // From https://github.com/toniov/p-iteration/blob/master/lib/static-methods.js - MIT © Antonio V
 const forEach = async (array, callback) => {
@@ -68,10 +69,10 @@ const copyTemplated = async (src, dest, repoName) => {
 	core.info(`CP: ${ src } TO ${ dest }`)
 	let content = await fs.readFile(src, 'ascii')
 	if (content.startsWith('{{=<% %>=}}')) {
-		const templateValuesPath = src + '.' + repoName + '.values.js'
+		const templateValuesPath = src + '.' + repoName + '.values.yml'
 		if (fs.existsSync(templateValuesPath)) {
 			core.info(`CP: templated values file ${ templateValuesPath } exist`)
-			const templateValues = require('./' + src + '.' + repoName + '.values').values
+			const templateValues = yaml.load((await fs.promises.readFile(templateValuesPath)))
 			if (templateValues === undefined) {
 				const errMessage = `Template values not found in ${ templateValuesPath }. maybe missing exports.values ?`
 				core.error(errMessage)

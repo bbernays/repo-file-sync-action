@@ -18695,6 +18695,7 @@ const { exec } = __nccwpck_require__(2081)
 const core = __nccwpck_require__(2186)
 const path = __nccwpck_require__(1017)
 const Mustache = __nccwpck_require__(8272)
+const yaml = __nccwpck_require__(1917)
 
 // From https://github.com/toniov/p-iteration/blob/master/lib/static-methods.js - MIT © Antonio V
 const forEach = async (array, callback) => {
@@ -18759,10 +18760,10 @@ const copyTemplated = async (src, dest, repoName) => {
 	core.info(`CP: ${ src } TO ${ dest }`)
 	let content = await fs.readFile(src, 'ascii')
 	if (content.startsWith('{{=<% %>=}}')) {
-		const templateValuesPath = src + '.' + repoName + '.values.js'
+		const templateValuesPath = src + '.' + repoName + '.values.yml'
 		if (fs.existsSync(templateValuesPath)) {
 			core.info(`CP: templated values file ${ templateValuesPath } exist`)
-			const templateValues = require('./' + src + '.' + repoName + '.values').values
+			const templateValues = yaml.load((await fs.promises.readFile(templateValuesPath)))
 			if (templateValues === undefined) {
 				const errMessage = `Template values not found in ${ templateValuesPath }. maybe missing exports.values ?`
 				core.error(errMessage)
