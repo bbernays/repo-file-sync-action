@@ -18758,7 +18758,6 @@ const pathIsDirectory = async (path) => {
 	return stat.isDirectory()
 }
 
-const mustacheDelimter = '{{=<% %>=}}'
 
 const copyTemplated = async (src, dest, repoName) => {
 	core.info(`CP: ${ src } TO ${ dest }`)
@@ -18775,10 +18774,10 @@ const copyTemplated = async (src, dest, repoName) => {
 				return
 			}
 			core.info(`templating src ${ src } with ${ JSON.stringify(templateValues) }`)
-			content = mustache.render(mustacheDelimter + content, {}, templateValues)
+			content = mustache.render(content, {}, templateValues)
 		} else {
 			core.info(`CP: templated values file ${ templateValuesPath } doesn't exist`)
-			content = mustache.render(mustacheDelimter + content, {}, {})
+			content = mustache.render(content, {}, {})
 		}
 	}
 	await fs.writeFile(dest, content, 'ascii')
