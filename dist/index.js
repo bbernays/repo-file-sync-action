@@ -19141,6 +19141,7 @@ const run = async () => {
 				return
 			}
 
+			core.info(await git.status())
 			const hasChanges = await git.hasChanges()
 
 			// If no changes left and nothing was modified we can assume nothing has changed/needs to be pushed
