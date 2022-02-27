@@ -42,7 +42,7 @@ const dedent = function(templateStrings, ...values) {
 }
 
 const execCmd = (command, workingDir, trimResult = true) => {
-	core.debug(`EXEC: "${ command }" IN ${ workingDir }`)
+	core.info(`EXEC: "${ command }" IN ${ workingDir }`)
 	return new Promise((resolve, reject) => {
 		exec(
 			command,

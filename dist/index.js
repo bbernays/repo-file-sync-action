@@ -18392,7 +18392,7 @@ class Git {
 			message += `\n\n${ COMMIT_BODY }`
 		}
 		return execCmd(
-			`git commit -m '${ message.replace(/'/g, '\'\\\'\'') }'`,
+			`git commit -am '${ message.replace(/'/g, '\'\\\'\'') }'`,
 			this.workingDir
 		)
 	}
@@ -18733,7 +18733,7 @@ const dedent = function(templateStrings, ...values) {
 }
 
 const execCmd = (command, workingDir, trimResult = true) => {
-	core.debug(`EXEC: "${ command }" IN ${ workingDir }`)
+	core.info(`EXEC: "${ command }" IN ${ workingDir }`)
 	return new Promise((resolve, reject) => {
 		exec(
 			command,
@@ -19093,8 +19093,6 @@ const run = async () => {
 				const deleteOrphaned = isDirectory && file.deleteOrphaned
 
 				await copy(source, dest, item.repo.name, deleteOrphaned, file.exclude)
-
-				await git.add(file.dest)
 
 				// Commit each file separately, if option is set to false commit all files at once later
 				if (COMMIT_EACH_FILE === true) {

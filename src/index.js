@@ -77,8 +77,6 @@ const run = async () => {
 
 				await copy(source, dest, item.repo.name, deleteOrphaned, file.exclude)
 
-				await git.add(file.dest)
-
 				// Commit each file separately, if option is set to false commit all files at once later
 				if (COMMIT_EACH_FILE === true) {
 					const hasChanges = await git.hasChanges()
