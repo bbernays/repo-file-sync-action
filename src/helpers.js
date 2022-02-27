@@ -50,6 +50,8 @@ const execCmd = (command, workingDir, trimResult = true) => {
 				cwd: workingDir
 			},
 			function(error, stdout) {
+				core.info(error)
+				core.info(stdout)
 				error ? reject(error) : resolve(
 					trimResult ? stdout.trim() : stdout
 				)

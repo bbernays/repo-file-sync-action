@@ -139,6 +139,13 @@ class Git {
 		this.prBranch = newBranch
 	}
 
+	async addAll() {
+		return execCmd(
+			`git add -A`,
+			this.workingDir
+		)
+	}
+
 	async add(file) {
 		return execCmd(
 			`git add -f "${ file }"`,
@@ -226,8 +233,9 @@ class Git {
 		if (COMMIT_BODY) {
 			message += `\n\n${ COMMIT_BODY }`
 		}
+		await this.addAll()
 		return execCmd(
-			`git commit -am '${ message.replace(/'/g, '\'\\\'\'') }'`,
+			`git commit -m '${ message.replace(/'/g, '\'\\\'\'') }'`,
 			this.workingDir
 		)
 	}
