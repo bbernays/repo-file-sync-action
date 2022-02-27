@@ -70,7 +70,7 @@ const pathIsDirectory = async (path) => {
 
 const copyTemplated = async (src, dest, repoName) => {
 	core.info(`CP: ${ src } TO ${ dest }`)
-	let content = await fs.readFile(src, 'ascii')
+	let content = await fs.readFile(src, 'utf-8')
 	if (content.startsWith('{{=<% %>=}}')) {
 		const templateValuesPath = src + '.' + repoName + '.values.yml'
 		if (fs.existsSync(templateValuesPath)) {
@@ -89,7 +89,7 @@ const copyTemplated = async (src, dest, repoName) => {
 			content = mustache.render(content, {}, {})
 		}
 	}
-	await fs.writeFile(dest, content, 'ascii')
+	await fs.writeFile(dest, content, 'utf-8')
 }
 
 const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
