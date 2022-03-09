@@ -103,6 +103,10 @@ const copy = async (src, dest, repoName, deleteOrphaned, exclude) => {
 			}
 			const srcPath = path.join(src, srcFile)
 			const dstPath = path.join(dest, path.basename(srcFile))
+			if ((exclude !== undefined && exclude.includes(srcPath))) {
+				core.debug(`Excluding file ${ srcFile }`)
+				continue
+			}
 			copyTemplated(srcPath, dstPath, repoName)
 		}
 	} else {
