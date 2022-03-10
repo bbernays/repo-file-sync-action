@@ -154,10 +154,14 @@ const run = async () => {
 				})
 			}
 
-			core.info(`Pushing changes to target repository`)
-			await git.push()
-
-			if (SKIP_PR === false) {
+			const hasFinalChanges = await git.hasChanges()
+			if (hasFinalChanges){
+				core.info(`Pushing changes to target repository`)
+				await git.push()
+			} else {
+				core.info(' No changes to target repository')
+			}
+			if (SKIP_PR === false && hasFinalChanges) {
 				// If each file was committed separately, list them in the PR description
 				const changedFiles = dedent(`
 					<details>
@@ -194,7 +198,6 @@ const run = async () => {
 					await git.addPrTeamReviewers(TEAM_REVIEWERS)
 				}
 			}
-
 			core.info('	')
 		} catch (err) {
 			core.setFailed(err.message)
